@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetInvoke", "NetInvoke\NetInvoke.csproj", "{646FA3C6-3C1E-4F98-A1EA-3A48013EAB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetInvoke.Test.Server", "NetInvoke.Test.Server\NetInvoke.Test.Server.csproj", "{EB371C6F-0B92-41D9-BC1D-84501A10C556}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetInvoke.Test.Client", "NetInvoke.Test.Client\NetInvoke.Test.Client.csproj", "{14F256C5-007F-48A3-ACE2-F162599458FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{646FA3C6-3C1E-4F98-A1EA-3A48013EAB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646FA3C6-3C1E-4F98-A1EA-3A48013EAB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646FA3C6-3C1E-4F98-A1EA-3A48013EAB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646FA3C6-3C1E-4F98-A1EA-3A48013EAB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB371C6F-0B92-41D9-BC1D-84501A10C556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB371C6F-0B92-41D9-BC1D-84501A10C556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB371C6F-0B92-41D9-BC1D-84501A10C556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB371C6F-0B92-41D9-BC1D-84501A10C556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F256C5-007F-48A3-ACE2-F162599458FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F256C5-007F-48A3-ACE2-F162599458FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F256C5-007F-48A3-ACE2-F162599458FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F256C5-007F-48A3-ACE2-F162599458FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

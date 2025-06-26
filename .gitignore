@@ -1,0 +1,10 @@
+# IDEs
+.idea/
+.vs/
+
+# Solution Output
+bin/
+obj/
+
+# User Settings
+*DotSettings.user
