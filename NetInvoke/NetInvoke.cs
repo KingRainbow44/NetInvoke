@@ -77,7 +77,7 @@ public static class NetworkInvoke {
     /// Invokes a method by its name.
     /// All parameters are read from the provided <see cref="BinaryReader"/>.
     /// </summary>
-    private static async Task InvokeMethod(string name, BinaryReader reader, IPEndPoint? sender = null) {
+    private static async Task InvokeMethod(string name, BinaryReader reader, NetworkClient? sender = null) {
         // Find the method by name.
         var method = Methods.FirstOrDefault(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         if (method is null) {
@@ -97,7 +97,7 @@ public static class NetworkInvoke {
                 { } t when t == typeof(float) => reader.ReadSingle(),
                 { } t when t == typeof(double) => reader.ReadDouble(),
                 { } t when t == typeof(byte[]) => reader.ReadBytes(reader.ReadInt32()),
-                { } t when t == typeof(NetworkClient) && sender is not null => Clients.GetValueOrDefault(sender),
+                { } t when t == typeof(NetworkClient) && sender is not null => sender,
                 _ => throw new InvalidOperationException($"Unsupported parameter type: {parameter.ParameterType}")
             };
             parameters.Add(value);
@@ -357,7 +357,7 @@ public static class NetworkInvoke {
                 // Invoke the method.
                 var methodName = reader.ReadString();
                 try {
-                    await InvokeMethod(methodName, reader, sender);
+                    await InvokeMethod(methodName, reader, client);
                     // TODO: Send a success response.
                     // await _serverOutput.Invoke(sender, new StatusCodeMessage { StatusCode = OperationSuccess });
                 }
@@ -372,17 +372,50 @@ public static class NetworkInvoke {
     }
 }
 
+public interface IClientData {
+    /// <summary>
+    /// Interface getter to retrieve the client associated with this data instance.
+    /// </summary>
+    public NetworkClient Client { get; }
+}
+
 /// <summary>
 /// A data structure for server-side network clients.
 /// </summary>
 public record NetworkClient(IPEndPoint Endpoint) {
     public bool Authenticated { get; set; }
+
+    /// <summary>
+    /// The data container for this client.
+    /// </summary>
+    private readonly Dictionary<Type, object> _data = new();
     
     /// <summary>
     /// Implicit conversion from <see cref="NetworkClient"/> to <see cref="IPEndPoint"/>.
     /// </summary>
     public static implicit operator IPEndPoint(NetworkClient client) {
         return client.Endpoint;
+    }
+    
+    /// <summary>
+    /// Gets or creates a data instance for the player.
+    /// </summary>
+    public T Data<T>() where T : IClientData {
+        // Check if the entry exists.
+        var type = typeof(T);
+        if (_data.TryGetValue(type, out var data) &&
+            data is T expected) {
+            return expected;
+        }
+
+        // Otherwise, we create a new instance.
+        var instance = Activator.CreateInstance(type, this);
+        if (instance is not T casted) {
+            throw new Exception("Instance does not match expected type");
+        }
+
+        _data[type] = casted;
+        return casted;
     }
 }
 
