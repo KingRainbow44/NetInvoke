@@ -298,7 +298,6 @@ public static class NetworkInvoke {
                     case OperationSuccess:
                         // Handshake successful, set the flag.
                         _handshakeCompleted = true;
-                        Console.WriteLine("Handshake finished.");
                         return;
                     case OperationError: {
                         // Handshake failed, read the error message.
