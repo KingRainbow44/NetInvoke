@@ -204,7 +204,7 @@ public static class NetworkInvoke {
     /// <summary>
     /// A global dictionary storing active network clients.
     /// </summary>
-    private static readonly Dictionary<IPEndPoint, NetworkClient> Clients = new();
+    public static readonly Dictionary<IPEndPoint, NetworkClient> Clients = new();
     
     /// <summary>
     /// Prepares <see cref="NetworkInvoke"/> for usage as a server.
@@ -235,6 +235,14 @@ public static class NetworkInvoke {
         
         // Send the invoke message to the specified client.
         await _serverOutput.Invoke(target, message);
+    }
+    
+    /// <summary>
+    /// Finds the first client that matches the given predicate.
+    /// </summary>
+    public static NetworkClient? FirstOrDefault(Func<NetworkClient, bool> predicate) {
+        // Find the first client that matches the predicate.
+        return Clients.Values.FirstOrDefault(predicate);
     }
 
     #endregion
