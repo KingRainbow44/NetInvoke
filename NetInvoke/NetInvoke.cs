@@ -126,6 +126,7 @@ public static class NetworkInvoke {
     private const uint OperationError = 0x02020202;
     
     private const uint OperationHandshake = 0x10101010;
+    private const uint OperationDisconnect = 0x20202020;
 
     #endregion
     
@@ -243,6 +244,19 @@ public static class NetworkInvoke {
     public static NetworkClient? FirstOrDefault(Func<NetworkClient, bool> predicate) {
         // Find the first client that matches the predicate.
         return Clients.Values.FirstOrDefault(predicate);
+    }
+
+    /// <summary>
+    /// Removes the client from the list.
+    /// Sends a disconnect packet to the client if it exists.
+    /// </summary>
+    /// <param name="target">The target to remove.</param>
+    public static async Task RemoveClient(IPEndPoint target) {
+        if (Clients.Remove(target, out var client) && _serverOutput is not null) {
+            // Send a disconnect message to the client.
+            var message = new StatusCodeMessage { StatusCode = OperationDisconnect };
+            await _serverOutput.Invoke(client, message);
+        }
     }
 
     #endregion
